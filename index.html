@@ -1,0 +1,658 @@
+# sterlo
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STERLOBEK — фриланс-дизайн из космоса • всё по 1500 ₸</title>
+<meta name="description" content="STERLOBEK — логотипы, баннеры, аватарки, превью. Любая работа 1500 ₸. Срок 24 часа.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#04020e; --bg2:#0a0524;
+  --violet:#8b5cf6; --cyan:#38e8ff; --pink:#ff5edb; --gold:#ffd166;
+  --text:#e9e6ff; --muted:#9a92c7;
+  --glass:rgba(139,92,246,.07); --line:rgba(139,92,246,.22);
+  --grad:linear-gradient(90deg,#38e8ff,#8b5cf6,#ff5edb);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:'Manrope',system-ui,sans-serif;
+  overflow-x:hidden; user-select:none; -webkit-user-select:none;
+}
+input,textarea,select{user-select:text;-webkit-user-select:text}
+::selection{background:rgba(139,92,246,.4)}
+img{-webkit-user-drag:none;user-drag:none}
+section{position:relative; padding:110px 20px; scroll-margin-top:90px}
+.wrap{max-width:1140px;margin:0 auto}
+h1,h2,h3,.disp{font-family:'Unbounded',sans-serif}
+
+/* ===== фоновый космос ===== */
+#space{position:fixed;inset:0;z-index:0;pointer-events:none}
+.nebula{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;z-index:0;pointer-events:none;
+  transform:translate(calc(var(--mx,0)*30px),calc(var(--my,0)*30px));transition:transform .4s ease-out}
+.n1{width:60vw;height:60vw;top:-20vw;left:-15vw;background:radial-gradient(circle,rgba(139,92,246,.35),transparent 65%)}
+.n2{width:50vw;height:50vw;bottom:-15vw;right:-10vw;background:radial-gradient(circle,rgba(56,232,255,.22),transparent 65%)}
+.n3{width:40vw;height:40vw;top:40%;left:55%;background:radial-gradient(circle,rgba(255,94,219,.16),transparent 65%)}
+main{position:relative;z-index:2}
+
+/* ===== лоадер ===== */
+#loader{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;gap:26px;align-items:center;justify-content:center;transition:opacity .7s,visibility .7s}
+#loader.done{opacity:0;visibility:hidden}
+.ld-logo{font-family:'Unbounded';font-weight:900;font-size:clamp(22px,4vw,34px);letter-spacing:.25em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ld-rocket{font-size:44px;animation:float 1.6s ease-in-out infinite}
+.ld-bar{width:min(320px,70vw);height:4px;border-radius:99px;background:rgba(139,92,246,.18);overflow:hidden}
+.ld-fill{height:100%;width:0%;background:var(--grad);border-radius:99px;transition:width .2s}
+.ld-msg{font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:13px;letter-spacing:.1em}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-45deg)}50%{transform:translateY(-14px) rotate(-45deg)}}
+
+/* ===== курсор ===== */
+#cur{position:fixed;z-index:999;width:8px;height:8px;border-radius:50%;background:var(--cyan);pointer-events:none;transform:translate(-50%,-50%);box-shadow:0 0 12px var(--cyan)}
+#curRing{position:fixed;z-index:998;width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(139,92,246,.75);pointer-events:none;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s,background .25s}
+#curRing.big{width:64px;height:64px;border-color:var(--cyan);background:rgba(56,232,255,.08)}
+@media (pointer:coarse){#cur,#curRing{display:none}}
+@media (pointer:fine){*{cursor:none!important}input,textarea,select{cursor:text!important}}
+
+/* ===== навигация ===== */
+nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:100;width:min(1100px,calc(100% - 24px));
+  display:flex;align-items:center;gap:18px;padding:10px 18px;border-radius:99px;
+  background:rgba(8,4,26,.6);backdrop-filter:blur(18px);border:1px solid var(--line)}
+.brand{font-family:'Unbounded';font-weight:900;font-size:15px;letter-spacing:.18em;text-decoration:none;color:#fff;white-space:nowrap}
+.brand b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:22px;margin-left:auto}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:700;transition:.25s}
+.nav-links a:hover{color:#fff;text-shadow:0 0 14px var(--violet)}
+.nav-cta{margin-left:8px;padding:9px 18px;border-radius:99px;background:var(--grad);color:#04020e;font-weight:800;font-size:13px;text-decoration:none;white-space:nowrap;box-shadow:0 0 22px rgba(139,92,246,.5);transition:.3s}
+.nav-cta:hover{transform:scale(1.06);box-shadow:0 0 34px rgba(56,232,255,.6)}
+@media(max-width:760px){.nav-links{display:none}}
+
+/* ===== герой ===== */
+#hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:120px}
+.hero-badge{display:inline-flex;gap:10px;align-items:center;padding:9px 20px;border-radius:99px;border:1px solid var(--line);background:var(--glass);font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.12em;color:#cfc3ff;margin-bottom:30px;animation:badgeGlow 2.6s ease-in-out infinite}
+.hero-badge b{color:var(--gold)}
+@keyframes badgeGlow{0%,100%{box-shadow:0 0 12px rgba(139,92,246,.25)}50%{box-shadow:0 0 26px rgba(56,232,255,.4)}}
+.hero-title{font-size:clamp(44px,11vw,124px);font-weight:900;letter-spacing:.02em;line-height:.95;position:relative;
+  background:linear-gradient(180deg,#fff 20%,#c9b8ff 60%,#7c5cff);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 34px rgba(139,92,246,.45))}
+.hero-title::after{content:attr(data-text);position:absolute;inset:0;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:0;clip-path:inset(20% 0 60% 0);animation:glitch 5s steps(1) infinite}
+@keyframes glitch{0%,93%,100%{opacity:0;clip-path:inset(20% 0 60% 0)}94%{opacity:.9;clip-path:inset(10% 0 65% 0);transform:translateX(-4px)}95.5%{opacity:.9;clip-path:inset(60% 0 15% 0);transform:translateX(4px)}97%{opacity:0}}
+.hero-sub{margin-top:22px;font-size:clamp(15px,2.2vw,20px);color:var(--muted);font-weight:600;letter-spacing:.04em}
+.hero-sub em{font-style:normal;color:var(--cyan)}
+.hero-btns{display:flex;gap:14px;margin-top:42px;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:99px;font-weight:800;font-size:15px;text-decoration:none;transition:.3s;border:1px solid transparent}
+.btn-main{background:var(--grad);color:#04020e;box-shadow:0 0 30px rgba(139,92,246,.55)}
+.btn-main:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 0 46px rgba(56,232,255,.65)}
+.btn-ghost{border-color:var(--line);color:#e9e6ff;background:var(--glass)}
+.btn-ghost:hover{border-color:var(--pink);box-shadow:0 0 24px rgba(255,94,219,.35);transform:translateY(-3px)}
+.scroll-hint{margin-top:70px;width:1px;height:64px;background:linear-gradient(180deg,var(--cyan),transparent);animation:hint 1.8s ease-in-out infinite}
+@keyframes hint{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ===== бегущая строка ===== */
+.marquee{overflow:hidden;border-block:1px solid var(--line);background:rgba(139,92,246,.05);position:relative;z-index:2}
+.mq-track{display:flex;width:max-content;animation:mq 26s linear infinite}
+.mq-track span{padding:13px 26px;white-space:nowrap;font-family:'Unbounded';font-size:12px;letter-spacing:.22em;color:#b8a6ff}
+.mq-track span b{color:var(--cyan)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ===== заголовки секций ===== */
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.35em;color:var(--cyan);text-transform:uppercase;margin-bottom:14px}
+.sec-title{font-size:clamp(26px,4.5vw,46px);font-weight:800;line-height:1.15}
+.sec-title .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sec-note{color:var(--muted);margin-top:14px;max-width:560px;font-size:15.5px}
+
+/* ===== орбита услуг ===== */
+.orbit-wrap{display:flex;justify-content:center;margin-top:56px}
+.orbit-system{position:relative;width:min(88vw,560px);aspect-ratio:1}
+.sun{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:128px;height:128px;border-radius:50%;
+  background:radial-gradient(circle at 35% 32%,#fff,#d3c4ff 22%,#7c3aed 62%,#2a2158);
+  display:grid;place-items:center;text-align:center;z-index:5;animation:pulse 3.2s ease-in-out infinite;
+  box-shadow:0 0 60px rgba(139,92,246,.75),0 0 140px rgba(56,232,255,.28)}
+.sun b{font-family:'Unbounded';font-size:21px;color:#fff;text-shadow:0 0 18px rgba(255,255,255,.7)}
+.sun small{display:block;font-size:9.5px;letter-spacing:.2em;color:#e3d9ff;margin-bottom:3px;font-family:'JetBrains Mono'}
+@keyframes pulse{0%,100%{box-shadow:0 0 60px rgba(139,92,246,.75),0 0 140px rgba(56,232,255,.28)}50%{box-shadow:0 0 90px rgba(139,92,246,.95),0 0 190px rgba(56,232,255,.45)}}
+.orbit{position:absolute;border-radius:50%;border:1px dashed rgba(139,92,246,.3);animation:spin var(--t) linear infinite}
+.o1{inset:17%;--t:22s}.o2{inset:5.5%;--t:34s}.o3{inset:-6%;--t:47s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pl{position:absolute;left:50%;transform:translate(-50%,-50%);background:none;border:none;z-index:6}
+.pl.top{top:0}.pl.bot{top:100%}
+.pl-in{display:flex;flex-direction:column;align-items:center;gap:6px;animation:spin var(--t) linear infinite reverse}
+.pl .ball{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-size:24px;
+  background:rgba(10,5,36,.85);border:1px solid var(--line);backdrop-filter:blur(6px);
+  box-shadow:0 0 22px rgba(139,92,246,.4);transition:.3s}
+.pl:hover .ball{transform:scale(1.22);border-color:var(--cyan);box-shadow:0 0 34px rgba(56,232,255,.6)}
+.pl .tag{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:#cfc3ff;font-family:'Unbounded';background:rgba(8,4,26,.8);padding:3px 9px;border-radius:99px;border:1px solid var(--line)}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:52px}
+.chip{padding:10px 18px;border-radius:99px;border:1px solid var(--line);background:var(--glass);color:#d9d2ff;font-weight:700;font-size:13.5px;transition:.3s;font-family:'Manrope'}
+.chip:hover{border-color:var(--cyan);color:#fff;box-shadow:0 0 20px rgba(56,232,255,.35);transform:translateY(-2px)}
+
+/* ===== модалка ===== */
+#modal{position:fixed;inset:0;z-index:500;display:grid;place-items:center;background:rgba(4,2,14,.78);backdrop-filter:blur(10px);opacity:0;visibility:hidden;transition:.35s}
+#modal.show{opacity:1;visibility:visible}
+.modal-card{width:min(440px,90vw);border-radius:24px;padding:38px 32px;text-align:center;position:relative;
+  background:linear-gradient(160deg,rgba(30,16,70,.95),rgba(8,4,26,.98));border:1px solid var(--line);
+  box-shadow:0 0 80px rgba(139,92,246,.4);transform:translateY(24px) scale(.96);transition:.35s}
+#modal.show .modal-card{transform:none}
+.modal-card .m-e{font-size:52px}
+.modal-card h3{font-size:24px;margin:14px 0 10px}
+.modal-card p{color:var(--muted);font-size:14.5px;line-height:1.6}
+.m-price{display:inline-block;margin:18px 0 22px;font-family:'Unbounded';font-size:20px;color:var(--gold);border:1px dashed rgba(255,209,102,.5);padding:8px 20px;border-radius:14px}
+.m-close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);font-size:22px;transition:.2s}
+.m-close:hover{color:#fff;transform:rotate(90deg)}
+
+/* ===== цена ===== */
+#price{text-align:center}
+.blackhole{position:relative;width:300px;height:300px;margin:60px auto;display:grid;place-items:center}
+.blackhole::before{content:'';position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,#38e8ff,#8b5cf6,#ff5edb,#ffd166,#38e8ff);
+  animation:spin 7s linear infinite;filter:blur(3px)}
+.blackhole::after{content:'';position:absolute;inset:16px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 60px rgba(139,92,246,.35)}
+.bh-num{position:relative;z-index:2;font-family:'Unbounded';font-weight:900;font-size:52px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.bh-num small{display:block;font-size:13px;letter-spacing:.3em;color:var(--muted);margin-top:6px;font-weight:400}
+.price-feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;max-width:920px;margin:30px auto 0}
+.pf{border:1px solid var(--line);background:var(--glass);border-radius:18px;padding:20px;font-size:14.5px;font-weight:700;color:#d9d2ff}
+.pf span{display:block;font-size:24px;margin-bottom:8px}
+
+/* ===== статистика ===== */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:70px}
+.stat{border:1px solid var(--line);border-radius:20px;background:var(--glass);padding:26px 18px;text-align:center}
+.stat b{font-family:'Unbounded';font-size:30px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{display:block;color:var(--muted);font-size:13px;margin-top:8px;font-weight:600}
+
+/* ===== процесс ===== */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:56px}
+.step{position:relative;border:1px solid var(--line);border-radius:22px;background:var(--glass);padding:28px 24px;overflow:hidden;transition:.35s}
+.step:hover{transform:translateY(-6px);border-color:var(--violet);box-shadow:0 14px 44px rgba(139,92,246,.25)}
+.step i{font-style:normal;font-family:'Unbounded';font-weight:900;font-size:44px;color:transparent;-webkit-text-stroke:1px rgba(139,92,246,.55)}
+.step h3{font-size:17px;margin:14px 0 8px}
+.step p{color:var(--muted);font-size:14px;line-height:1.55}
+.step::after{content:'';position:absolute;top:0;right:0;width:90px;height:90px;background:radial-gradient(circle,rgba(56,232,255,.14),transparent 70%)}
+
+/* ===== работы ===== */
+.works{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:56px}
+.work{position:relative;aspect-ratio:4/3;border-radius:20px;overflow:hidden;border:1px solid var(--line);display:grid;place-items:center;font-size:60px;transition:.4s}
+.work:hover{transform:scale(1.03);border-color:var(--cyan)}
+.work .info{position:absolute;inset:auto 0 0 0;padding:16px 18px;background:linear-gradient(180deg,transparent,rgba(4,2,14,.92) 40%);transform:translateY(35%);opacity:0;transition:.4s}
+.work:hover .info{transform:none;opacity:1}
+.info h3{font-size:16px}
+.info span{font-size:12px;color:var(--cyan);font-family:'JetBrains Mono'}
+
+/* ===== отзывы ===== */
+.rev-marquee{overflow:hidden;margin-top:56px;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.rev-track{display:flex;gap:16px;width:max-content;animation:mq 38s linear infinite}
+.rev{width:310px;border:1px solid var(--line);border-radius:20px;background:var(--glass);padding:24px;flex-shrink:0}
+.rev .stars{color:var(--gold);letter-spacing:3px;font-size:13px}
+.rev p{margin:12px 0 16px;font-size:14px;line-height:1.6;color:#d9d2ff}
+.rev b{font-size:13px;color:var(--cyan)}
+
+/* ===== контакты / терминал ===== */
+#contact .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;margin-top:56px}
+@media(max-width:860px){#contact .grid{grid-template-columns:1fr}}
+.terminal{border:1px solid var(--line);border-radius:20px;overflow:hidden;background:rgba(6,3,20,.9);box-shadow:0 0 60px rgba(139,92,246,.18)}
+.t-head{display:flex;gap:8px;align-items:center;padding:13px 18px;border-bottom:1px solid var(--line);background:rgba(139,92,246,.06)}
+.t-head i{width:11px;height:11px;border-radius:50%;display:block}
+.t-head i:nth-child(1){background:#ff5f57}.t-head i:nth-child(2){background:#febc2e}.t-head i:nth-child(3){background:#28c840}
+.t-head span{margin-left:10px;font-family:'JetBrains Mono';font-size:12px;color:var(--muted)}
+.t-body{padding:26px}
+.t-body label{display:block;font-family:'JetBrains Mono';font-size:12px;color:var(--cyan);margin:16px 0 7px;letter-spacing:.06em}
+.t-body label:first-child{margin-top:0}
+.t-body input,.t-body select,.t-body textarea{width:100%;background:rgba(139,92,246,.07);border:1px solid var(--line);border-radius:12px;padding:13px 15px;color:#fff;font-family:'JetBrains Mono';font-size:14px;outline:none;transition:.25s;resize:vertical}
+.t-body input:focus,.t-body select:focus,.t-body textarea:focus{border-color:var(--cyan);box-shadow:0 0 18px rgba(56,232,255,.25)}
+.t-body select option{background:#0a0524}
+.t-submit{width:100%;margin-top:24px;padding:16px;border:none;border-radius:14px;background:var(--grad);font-family:'Unbounded';font-weight:800;font-size:15px;color:#04020e;transition:.3s}
+.t-submit:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(56,232,255,.55)}
+.contacts{display:flex;flex-direction:column;gap:14px}
+.c-card{display:flex;align-items:center;gap:16px;border:1px solid var(--line);border-radius:18px;background:var(--glass);padding:20px;text-decoration:none;color:#fff;transition:.3s}
+.c-card:hover{transform:translateX(6px);border-color:var(--cyan);box-shadow:0 0 26px rgba(56,232,255,.3)}
+.c-ico{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:rgba(139,92,246,.16);border:1px solid var(--line);flex-shrink:0}
+.c-card small{display:block;color:var(--muted);font-size:12px;margin-bottom:3px}
+.c-card b{font-size:15.5px}
+
+/* ===== футер ===== */
+footer{position:relative;z-index:2;border-top:1px solid var(--line);padding:34px 20px;text-align:center;color:var(--muted);font-size:13px}
+footer .brand{font-size:18px;display:inline-block;margin-bottom:10px}
+footer p{margin-top:6px}
+
+/* ===== защита / тосты / лок ===== */
+#shield{position:fixed;left:16px;bottom:16px;z-index:120;display:flex;gap:9px;align-items:center;padding:9px 16px;border-radius:99px;
+  background:rgba(6,3,20,.8);border:1px solid rgba(56,232,255,.35);backdrop-filter:blur(10px);
+  font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.1em;color:#9beeff;animation:badgeGlow 3s ease-in-out infinite}
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,20px);z-index:600;padding:13px 24px;border-radius:14px;
+  background:rgba(10,5,36,.94);border:1px solid var(--cyan);color:#dff7ff;font-weight:700;font-size:14px;
+  box-shadow:0 0 34px rgba(56,232,255,.35);opacity:0;transition:.3s;pointer-events:none;max-width:88vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+#lock{position:fixed;inset:0;z-index:2000;background:rgba(4,2,14,.97);display:none;place-items:center;text-align:center;padding:20px}
+#lock.show{display:grid}
+#lock h2{font-size:26px;margin:16px 0 10px;color:var(--cyan)}
+#lock p{color:var(--muted);max-width:400px;margin:0 auto 24px;line-height:1.6}
+#lock button{padding:13px 34px;border-radius:99px;border:none;background:var(--grad);font-weight:800;font-size:14px}
+
+/* ===== появление при скролле ===== */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s ease,transform .8s ease}
+.reveal.on{opacity:1;transform:none}
+.tilt{transition:transform .18s ease;will-change:transform}
+
+@media print{body{display:none!important}}
+</style>
+</head>
+<body>
+
+<!-- фоновая защита от копирования -->
+<div id="cur"></div><div id="curRing"></div>
+<canvas id="space"></canvas>
+<div class="nebula n1"></div><div class="nebula n2"></div><div class="nebula n3"></div>
+
+<!-- ЛОАДЕР -->
+<div id="loader">
+  <div class="ld-rocket">🚀</div>
+  <div class="ld-logo">STERLOBEK</div>
+  <div class="ld-bar"><div class="ld-fill" id="ldFill"></div></div>
+  <div class="ld-msg" id="ldMsg">зажигаем звёзды…</div>
+</div>
+
+<!-- НАВИГАЦИЯ -->
+<nav>
+  <a href="#hero" class="brand">✦ STERLO<b>BEK</b></a>
+  <div class="nav-links">
+    <a href="#services">Услуги</a>
+    <a href="#price">Цена</a>
+    <a href="#process">Процесс</a>
+    <a href="#works">Работы</a>
+    <a href="#reviews">Отзывы</a>
+  </div>
+  <a class="nav-cta" href="https://t.me/venizelks" target="_blank" rel="noopener">Заказать ✦</a>
+</nav>
+
+<main>
+<!-- ГЕРОЙ -->
+<section id="hero">
+  <div class="hero-badge">✦ ЛЮБАЯ РАБОТА — <b>1 500 ₸</b> ✦ СРОК ОТ 24 ЧАСОВ</div>
+  <h1 class="hero-title scr" data-text="STERLOBEK">STERLOBEK</h1>
+  <p class="hero-sub">фриланс-дизайн <em>из открытого космоса</em> — быстро, сочно, без лишних слов</p>
+  <div class="hero-btns">
+    <a class="btn btn-main" href="https://t.me/venizelks" target="_blank" rel="noopener">🚀 Заказать в Telegram</a>
+    <a class="btn btn-ghost" href="https://instagram.com/fo1ddestroyer666" target="_blank" rel="noopener">📸 Instagram</a>
+    <a class="btn btn-ghost" href="tel:+7755026706">📞 Позвонить</a>
+  </div>
+  <div class="scroll-hint"></div>
+</section>
+
+<!-- БЕГУЩАЯ СТРОКА -->
+<div class="marquee"><div class="mq-track" id="mqTrack">
+  <span>ДИЗАЙН ✦ ЛОГОТИПЫ ✦ БАННЕРЫ ✦ АВАТАРКИ ✦ ПРЕВЬЮ ✦ НИК-АРТ ✦ ОФОРМЛЕНИЕ ✦ <b>ВСЁ ПО 1500 ₸</b> ✦ </span>
+</div></div>
+
+<!-- УСЛУГИ / ОРБИТА -->
+<section id="services">
+  <div class="wrap" style="text-align:center">
+    <div class="eyebrow reveal">// бортовой журнал</div>
+    <h2 class="sec-title reveal">Орбиты <span class="g">услуг</span></h2>
+    <p class="sec-note reveal" style="margin-inline:auto">Каждая планета — услуга. Кликни по планете или по чипу ниже — узнаешь детали. Цена у всех одна.</p>
+
+    <div class="orbit-wrap reveal">
+      <div class="orbit-system">
+        <div class="sun"><div><small>ВСЁ ПО</small><b>1500 ₸</b></div></div>
+        <div class="orbit o1">
+          <button class="pl top" data-i="0"><span class="pl-in" style="--t:22s"><span class="ball">🪐</span><span class="tag">Лого</span></span></button>
+          <button class="pl bot" data-i="1"><span class="pl-in" style="--t:22s"><span class="ball">☄️</span><span class="tag">Баннер</span></span></button>
+        </div>
+        <div class="orbit o2">
+          <button class="pl top" data-i="2"><span class="pl-in" style="--t:34s"><span class="ball">🌙</span><span class="tag">Ава</span></span></button>
+          <button class="pl bot" data-i="3"><span class="pl-in" style="--t:34s"><span class="ball">⚡</span><span class="tag">Превью</span></span></button>
+        </div>
+        <div class="orbit o3">
+          <button class="pl top" data-i="4"><span class="pl-in" style="--t:47s"><span class="ball">✨</span><span class="tag">Ник-арт</span></span></button>
+          <button class="pl bot" data-i="5"><span class="pl-in" style="--t:47s"><span class="ball">🛰️</span><span class="tag">Оформление</span></span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="chips reveal">
+      <button class="chip" data-i="0">🪐 Логотип</button>
+      <button class="chip" data-i="1">☄️ Баннер</button>
+      <button class="chip" data-i="2">🌙 Аватарка</button>
+      <button class="chip" data-i="3">⚡ Превью видео</button>
+      <button class="chip" data-i="4">✨ Ник-арт</button>
+      <button class="chip" data-i="5">🛰️ Оформление соцсетей</button>
+    </div>
+  </div>
+</section>
+
+<!-- ЦЕНА -->
+<section id="price">
+  <div class="wrap">
+    <div class="eyebrow reveal">// одна цена — ноль сюрпризов</div>
+    <h2 class="sec-title reveal">Чёрная дыра <span class="g">скидок</span></h2>
+    <div class="blackhole reveal tilt">
+      <div class="bh-num">1500 ₸<small>ФИКС ЗА ЛЮБУЮ РАБОТУ</small></div>
+    </div>
+    <div class="price-feats">
+      <div class="pf reveal"><span>⏱️</span>Срок от 24 часов</div>
+      <div class="pf reveal"><span>🔁</span>2 правки бесплатно</div>
+      <div class="pf reveal"><span>📦</span>Все исходники отдаю</div>
+      <div class="pf reveal"><span>💬</span>На связи 24/7</div>
+    </div>
+    <div class="stats">
+      <div class="stat reveal"><b data-count="250">0</b><span>выполненных работ</span></div>
+      <div class="stat reveal"><b data-count="24">0</b><span>часа — средний срок</span></div>
+      <div class="stat reveal"><b data-count="98">0</b><span>% довольных клиентов</span></div>
+      <div class="stat reveal"><b data-count="1500">0</b><span>₸ — одна цена навсегда</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ПРОЦЕСС -->
+<section id="process">
+  <div class="wrap">
+    <div class="eyebrow reveal">// маршрут полёта</div>
+    <h2 class="sec-title reveal">Как проходит <span class="g">запуск</span></h2>
+    <div class="steps">
+      <div class="step reveal tilt"><i>01</i><h3>Заявка 📨</h3><p>Пишешь мне в Telegram или Instagram. Отвечаю быстро — обычно в течение часа.</p></div>
+      <div class="step reveal tilt"><i>02</i><h3>Бриф 🧠</h3><p>Уточняю идею, референсы и стиль. Чем больше инфы — тем точнее результат.</p></div>
+      <div class="step reveal tilt"><i>03</i><h3>Дизайн 🎨</h3><p>Делаю работу за 24 часа. Показываю превью, вношу правки до результата.</p></div>
+      <div class="step reveal tilt"><i>04</i><h3>Готово 🚀</h3><p>Отправляю файлы в нужном качестве и все исходники. Оплата после того, как всё понравилось.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- РАБОТЫ -->
+<section id="works">
+  <div class="wrap">
+    <div class="eyebrow reveal">// галерея созвездий</div>
+    <h2 class="sec-title reveal">Свежие <span class="g">работы</span></h2>
+    <div class="works">
+      <div class="work reveal tilt" style="background:linear-gradient(135deg,#1b0f4d,#38e8ff44)">🪐<div class="info"><h3>Лого «NOVA»</h3><span>логотип • 1500 ₸ • 24ч</span></div></div>
+      <div class="work reveal tilt" style="background:linear-gradient(135deg,#3d0f4d,#ff5edb44)">☄️<div class="info"><h3>Баннер для стрима</h3><span>баннер • 1500 ₸ • 24ч</span></div></div>
+      <div class="work reveal tilt" style="background:linear-gradient(135deg,#0f2a4d,#8b5cf644)">🐺<div class="info"><h3>Ава «WOLF»</h3><span>аватарка • 1500 ₸ • 24ч</span></div></div>
+      <div class="work reveal tilt" style="background:linear-gradient(135deg,#0f4d3a,#38e8ff44)">⚡<div class="info"><h3>Превью TikTok</h3><span>превью • 1500 ₸ • 24ч</span></div></div>
+      <div class="work reveal tilt" style="background:linear-gradient(135deg,#4d2a0f,#ffd16644)">✨<div class="info"><h3>Ник-арт «VENOM»</h3><span>ник-арт • 1500 ₸ • 24ч</span></div></div>
+      <div class="work reveal tilt" style="background:linear-gradient(135deg,#2a0f4d,#ff5edb44)">🛰️<div class="info"><h3>Шапка канала</h3><span>оформление • 1500 ₸ • 24ч</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ОТЗЫВЫ -->
+<section id="reviews">
+  <div class="wrap">
+    <div class="eyebrow reveal">// сигналы с орбиты</div>
+    <h2 class="sec-title reveal">Что говорят <span class="g">клиенты</span></h2>
+  </div>
+  <div class="rev-marquee reveal"><div class="rev-track" id="revTrack">
+    <div class="rev"><div class="stars">★★★★★</div><p>«Лого сделали за один вечер, качество просто космос. Все друзья спрашивают, где заказывал»</p><b>— Дамир</b></div>
+    <div class="rev"><div class="stars">★★★★★</div><p>«Заказала аву и шапку профиля — получилось даже лучше, чем я представляла 🔥»</p><b>— Аружан</b></div>
+    <div class="rev"><div class="stars">★★★★★</div><p>«Превью для видосов подняли просмотры в два раза. 1500 тг — это смешная цена за такое»</p><b>— Тимур</b></div>
+    <div class="rev"><div class="stars">★★★★★</div><p>«Быстро, чётко, с правками без нервов. Буду заказывать ещё, респект»</p><b>— Нурик</b></div>
+    <div class="rev"><div class="stars">★★★★★</div><p>«Баннер для магазина получился сочный, клиенты сразу начали писать. Рекомендую!»</p><b>— Айдана</b></div>
+  </div></div>
+</section>
+
+<!-- КОНТАКТЫ + ЗАКАЗ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="eyebrow reveal">// центр управления</div>
+    <h2 class="sec-title reveal">Запусти свой <span class="g">проект</span></h2>
+    <div class="grid">
+      <form class="terminal reveal" id="orderForm">
+        <div class="t-head"><i></i><i></i><i></i><span>sterlobek@order:~$ запустить_проект</span></div>
+        <div class="t-body">
+          <label>&gt; твоё имя_</label>
+          <input type="text" id="fName" placeholder="Например: Алихан" maxlength="60" required>
+          <label>&gt; твой контакт (ник в TG / INSTA)_</label>
+          <input type="text" id="fContact" placeholder="@nickname" maxlength="60" required>
+          <label>&gt; выбери услугу_</label>
+          <select id="fService">
+            <option>🪐 Логотип</option><option>☄️ Баннер</option><option>🌙 Аватарка</option>
+            <option>⚡ Превью видео</option><option>✨ Ник-арт</option><option>🛰️ Оформление соцсетей</option>
+            <option>🌌 Другое</option>
+          </select>
+          <label>&gt; детали (необязательно)_</label>
+          <textarea id="fDetails" rows="3" placeholder="Стиль, цвета, референсы…" maxlength="500"></textarea>
+          <button type="submit" class="t-submit">🚀 ЗАПУСТИТЬ В КОСМОС — 1500 ₸</button>
+        </div>
+      </form>
+      <div class="contacts">
+        <a class="c-card reveal" href="https://t.me/venizelks" target="_blank" rel="noopener">
+          <div class="c-ico">✈️</div><div><small>TELEGRAM — самый быстрый способ</small><b>@venizelks</b></div>
+        </a>
+        <a class="c-card reveal" href="https://instagram.com/fo1ddestroyer666" target="_blank" rel="noopener">
+          <div class="c-ico">📸</div><div><small>INSTAGRAM — работы и закулисье</small><b>fo1ddestroyer666</b></div>
+        </a>
+        <a class="c-card reveal" href="tel:+7755026706">
+          <div class="c-ico">📞</div><div><small>ЗВОНОК — если хочется голосом</small><b>+7 755 026-706</b></div>
+        </a>
+        <div class="c-card reveal" style="cursor:default">
+          <div class="c-ico">💸</div><div><small>ОПЛАТА</small><b>1500 ₸ после того, как всё понравилось</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <a href="#hero" class="brand">✦ STERLO<b>BEK</b></a>
+  <p>фриланс-дизайн из открытого космоса • всё по 1500 ₸</p>
+  <p>© 2026 STERLOBEK • Сайт под защитой 🛡 • Все права защищены</p>
+</footer>
+
+<!-- МОДАЛКА УСЛУГИ -->
+<div id="modal">
+  <div class="modal-card">
+    <button class="m-close" onclick="closeModal()">✕</button>
+    <div class="m-e" id="mE"></div>
+    <h3 id="mT"></h3>
+    <p id="mD"></p>
+    <div class="m-price">1 500 ₸</div><br>
+    <a class="btn btn-main" href="https://t.me/venizelks" target="_blank" rel="noopener">Заказать это 🚀</a>
+  </div>
+</div>
+
+<!-- ЭКРАН БЛОКИРОВКИ -->
+<div id="lock">
+  <div>
+    <div style="font-size:54px">🛡</div>
+    <h2>STERLOBEK PROTECT</h2>
+    <p>Обнаружены инструменты разработчика. Контент сайта защищён от копирования и разбора.</p>
+    <button onclick="unlockShield()">Понятно, ухожу ✦</button>
+  </div>
+</div>
+
+<div id="shield">🛡 STERLOBEK PROTECT: АКТИВЕН</div>
+
+<script>
+/* ================== ДАННЫЕ ================== */
+const SERVICES=[
+ {e:'🪐',t:'Логотип',d:'Уникальный знак для твоего бренда или канала: 2–3 концепта на выбор, исходники в подарок.'},
+ {e:'☄️',t:'Баннер',d:'Сочный баннер для стрима, сайта, рекламы или шапки. Любой размер и формат.'},
+ {e:'🌙',t:'Аватарка',d:'Ава, которую запомнят: арт, обработка фото, леттеринг или неон-стиль.'},
+ {e:'⚡',t:'Превью видео',d:'Кликабельные превью для YouTube и TikTok — поднимем CTR в космос.'},
+ {e:'✨',t:'Ник-арт',d:'Стильный ник / леттеринг для игры, профиля или канала. Любой вайб.'},
+ {e:'🛰️',t:'Оформление соцсетей',d:'Шапка + аватар + единый стиль профиля. Полный космический пакет.'}
+];
+
+/* ================== ЛОАДЕР ================== */
+(function(){
+  const msgs=['зажигаем звёзды…','калибруем орбиты…','заряжаем дизайн…','готово к запуску'];
+  const fill=document.getElementById('ldFill'),msg=document.getElementById('ldMsg');
+  let p=0;
+  const iv=setInterval(()=>{
+    p=Math.min(100,p+Math.random()*9+3);
+    fill.style.width=p+'%';
+    msg.textContent=msgs[Math.min(Math.floor(p/26),msgs.length-1)];
+    if(p>=100){clearInterval(iv);setTimeout(()=>{
+      document.getElementById('loader').classList.add('done');
+      document.querySelectorAll('.scr').forEach(scramble);
+    },350);}
+  },90);
+})();
+
+/* ================== СКРЭМБЛ ЗАГОЛОВКА ================== */
+function scramble(el){
+  const fin=el.dataset.text||el.textContent,chars='!<>-_/[]{}=+*^?#₸✦✧';
+  let f=0;
+  const iv=setInterval(()=>{
+    el.textContent=fin.split('').map((c,i)=>i<f/2.5?c:chars[Math.random()*chars.length|0]).join('');
+    f++;
+    if(f>fin.length*2.5+6){el.textContent=fin;clearInterval(iv);}
+  },42);
+}
+
+/* ================== ЗВЁЗДНОЕ НЕБО ================== */
+const cv=document.getElementById('space'),cx=cv.getContext('2d');
+let W,H,stars=[],meteors=[],mx=0,my=0;
+function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;
+  stars=Array.from({length:Math.min(280,W*H/5500|0)},()=>({
+    x:Math.random()*W,y:Math.random()*H,z:Math.random()*.8+.25,
+    r:Math.random()*1.4+.25,tw:Math.random()*6.28}));
+}
+resize();addEventListener('resize',resize);
+addEventListener('mousemove',e=>{
+  mx=e.clientX/W-.5;my=e.clientY/H-.5;
+  document.documentElement.style.setProperty('--mx',mx);
+  document.documentElement.style.setProperty('--my',my);
+});
+(function frame(t){
+  cx.clearRect(0,0,W,H);
+  for(const s of stars){
+    cx.globalAlpha=.35+.65*Math.abs(Math.sin(t/850+s.tw));
+    cx.fillStyle='#d6e4ff';
+    cx.beginPath();cx.arc(s.x+mx*34*s.z,s.y+my*34*s.z,s.r*s.z,0,6.29);cx.fill();
+  }
+  if(Math.random()<.007)meteors.push({x:Math.random()*W,y:-30,vx:-(3+Math.random()*4),vy:3+Math.random()*3,l:1});
+  for(const m of meteors){
+    m.x+=m.vx;m.y+=m.vy;m.l-=.008;
+    cx.globalAlpha=Math.max(m.l,0);cx.strokeStyle='#9bd7ff';cx.lineWidth=1.6;
+    cx.beginPath();cx.moveTo(m.x,m.y);cx.lineTo(m.x-m.vx*9,m.y-m.vy*9);cx.stroke();
+  }
+  meteors=meteors.filter(m=>m.l>0&&m.y<H+60);
+  cx.globalAlpha=1;requestAnimationFrame(frame);
+})(0);
+
+/* ================== КУРСОР ================== */
+const cur=document.getElementById('cur'),ring=document.getElementById('curRing');
+let rx=innerWidth/2,ry=innerHeight/2,tx=rx,ty=ry;
+addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;cur.style.left=tx+'px';cur.style.top=ty+'px';});
+(function lerp(){rx+=(tx-rx)*.16;ry+=(ty-ry)*.16;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(lerp);})();
+document.addEventListener('mouseover',e=>{
+  ring.classList.toggle('big',!!e.target.closest('a,button,.tilt,input,select,textarea,.pl,.chip'));
+});
+
+/* ================== ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ ================== */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}
+}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ================== 3D-НАКЛОН ================== */
+document.querySelectorAll('.tilt').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    el.style.transform=`perspective(800px) rotateY(${x*9}deg) rotateX(${-y*9}deg) translateY(-4px)`;
+  });
+  el.addEventListener('mouseleave',()=>el.style.transform='');
+});
+
+/* ================== СЧЁТЧИКИ ================== */
+const cio=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const el=e.target,target=+el.dataset.count;cio.unobserve(el);
+  const t0=performance.now();
+  (function step(t){
+    const k=Math.min((t-t0)/1400,1);
+    el.textContent=Math.round(target*(1-Math.pow(1-k,3)));
+    if(k<1)requestAnimationFrame(step);
+  })(t0);
+}),{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+/* ================== ДУБЛИРОВАНИЕ ЛЕНТ ================== */
+['mqTrack','revTrack'].forEach(id=>{const t=document.getElementById(id);t.innerHTML+=t.innerHTML;});
+
+/* ================== МОДАЛКА УСЛУГ ================== */
+const modal=document.getElementById('modal');
+function openModal(i){
+  const s=SERVICES[i];
+  document.getElementById('mE').textContent=s.e;
+  document.getElementById('mT').textContent=s.t;
+  document.getElementById('mD').textContent=s.d;
+  modal.classList.add('show');
+}
+function closeModal(){modal.classList.remove('show');}
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.querySelectorAll('.pl,.chip').forEach(b=>b.addEventListener('click',()=>openModal(+b.dataset.i)));
+
+/* ================== ФОРМА ЗАКАЗА ================== */
+document.getElementById('orderForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=document.getElementById('fName').value.trim(),
+        contact=document.getElementById('fContact').value.trim(),
+        service=document.getElementById('fService').value,
+        details=document.getElementById('fDetails').value.trim();
+  const text=`🚀 ЗАЯВКА С САЙТА STERLOBEK\n\n👤 Имя: ${name}\n📱 Контакт: ${contact}\n🎨 Услуга: ${service} — 1500 ₸\n📝 Детали: ${details||'—'}`;
+  copyText(text);
+  toast('🚀 Заявка скопирована! Вставь её в чат Telegram');
+  setTimeout(()=>window.open('https://t.me/venizelks','_blank'),600);
+  e.target.reset();
+});
+function copyText(t){
+  if(navigator.clipboard){navigator.clipboard.writeText(t).catch(()=>fbCopy(t));}
+  else fbCopy(t);
+}
+function fbCopy(t){
+  const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy');}catch(_){}
+  ta.remove();
+}
+
+/* ================== ТОСТЫ ================== */
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;
+  document.body.appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('on'));
+  setTimeout(()=>{t.classList.remove('on');setTimeout(()=>t.remove(),350);},2800);
+}
+
+/* ==================================================
+   🛡 STERLOBEK PROTECT — комплект защиты сайта
+   ================================================== */
+// 1) запрет ПКМ
+document.addEventListener('contextmenu',e=>{e.preventDefault();toast('🛡 Правая кнопка отключена защитой');});
+// 2) запрет выделения, копирования, вырезания, перетаскивания
+['copy','cut','selectstart','dragstart'].forEach(ev=>
+  document.addEventListener(ev,e=>{e.preventDefault();if(ev==='copy'||ev==='cut')toast('🛡 Копирование запрещено');})
+);
+// 3) блок горячих клавиш (F12, DevTools, просмотр кода, печать)
+document.addEventListener('keydown',e=>{
+  const k=(e.key||'').toUpperCase();
+  if(e.key==='F12'||
+     (e.ctrlKey&&e.shiftKey&&['I','J','C'].includes(k))||
+     (e.ctrlKey&&['U','S','P','A','C'].includes(k))){
+    e.preventDefault();e.stopPropagation();
+    toast('🛡 STERLOBEK PROTECT: действие заблокировано');
+    return false;
+  }
+},true);
+// 4) детект открытых DevTools
+let lockCooldown=0;
+setInterval(()=>{
+  const diff=Math.max(window.outerWidth-window.innerWidth,window.outerHeight-window.innerHeight);
+  if(diff>240&&Date.now()>lockCooldown)document.getElementById('lock').classList.add('show');
+},1300);
+function unlockShield(){
+  document.getElementById('lock').classList.remove('show');
+  lockCooldown=Date.now()+60000;
+}
+// 5) запрет встраивания в iframe (анти-фишинг)
+if(self!==top){try{top.location=self.location;}catch(_){document.body.innerHTML='';}}
+// 6) предупреждение в консоли + её очистка
+console.log('%c ✦ STERLOBEK 🛡 ','font-size:22px;font-weight:bold;background:#04020e;color:#38e8ff;padding:10px 18px;border-radius:10px;');
+console.log('%cКонтент защищён. Любое копирование отслеживается.','color:#ff5edb;font-size:13px;');
+setInterval(()=>{try{console.clear();}catch(_){}},4000);
+</script>
+</body>
+        </html>
